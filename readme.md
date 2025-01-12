@@ -1,4 +1,4 @@
-# Clock
+# vclock
 This program is a simple clock (ala xclock) written using raylib
 binding to V language.
 
