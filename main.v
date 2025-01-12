@@ -1,3 +1,20 @@
+/*
+vclock : written by  BrunoVDR
+This program is a simple clock (ala xclock) written using raylib binding to V language.
+
+raylib is a simple and easy-to-use library to enjoy videogames programming (https://www.raylib.com/).
+V is Simple, fast, safe, compiled. For developing maintainable software (https://vlang.io/)..
+
+To compile the program from within source directory:
+
+v -prod .
+
+Raylib  module must be installed: https://vpm.vlang.io/packages/raylib
+or on GitHub: https://github.com/vlang/raylib
+
+This program is released under MIT license.
+ */
+
 module main
 
 import raylib
@@ -7,12 +24,12 @@ import time
 const screen_width = 512
 const screen_height = 512
 const r = 230.0
-const brand = 'V\'s 60Hz clock'
+const brand = "V's 60Hz clock"
 const brand_height = 10
 
 fn main() {
 	raylib.set_config_flags(raylib.ConfigFlags.flag_msaa_4x_hint)
-	raylib.init_window(screen_width, screen_height, 'V / raylib time example.')
+	raylib.init_window(screen_width, screen_height, 'vclock - [V / raylib]')
 	raylib.set_target_fps(60) // Set our game to run at 60 frames-per-second
 
 	defer {
@@ -24,11 +41,11 @@ fn main() {
 	target := raylib.Vector2{0, 0}
 	camera := raylib.Camera2D{offset, target, 0.0, 1.0}
 
-	brand_pos := -raylib.measure_text(brand, brand_height)/ 2
+	brand_pos := -raylib.measure_text(brand, brand_height) / 2
 
 	for !raylib.window_should_close() { // Detect window close button or ESC key
 		t := time.now()
-	    s := '${t.hour:02}:${t.minute:02}:${t.second:02}'
+		s := '${t.hour:02}:${t.minute:02}:${t.second:02}'
 
 		raylib.begin_drawing()
 		raylib.clear_background(raylib.raywhite)
@@ -52,12 +69,12 @@ fn draw_dial() {
 		y := int(r * math.sin(angle_rad))
 		radius := if i % 5 == 0 { f32(10) } else { f32(3) }
 		raylib.draw_circle(x, y, radius, raylib.black)
-		angle += 360.0/60.0  // angular_step
+		angle += 360.0 / 60.0 // angular_step
 	}
 }
 
 // Draw the 3 clock hands. Keep in mind that raylib Camera2D Y axis is reversed.
-fn draw_hands(now &time.Time ) {
+fn draw_hands(now &time.Time) {
 	angle_seconds := f64(180 + (360 / 60) * (now.second + f64(now.nanosecond) / 1_000_000_000.0))
 	angle_minutes := f64(180 + (360 / 60) * (now.minute + (f64(now.second) / 60.0)))
 	angle_hours := f64(180 + (360 / 12) * (now.hour + (f64(now.minute) / 60.0)))
